@@ -1,0 +1,73 @@
+
+Changes in version 0.4.8
+
+- Replaced stray instances of "uint" in JEventLoop.X with "unsigned int"
+- Added CERNLIB support to autoconf configuration
+- Added janahbook utility. This currently is unfinished.
+- Added warnings counter to janaroot plugin for data of unknown type
+- Added JANAROOT_VERBOSE config parameter to janaroot plugin
+- Improved mutex locking while accessing thread-related members of JApplication
+- Added THREAD_TIMEOUT config parameter to allow setting from command line
+- Launch a new thread if a dead one is terminated
+- Fixed "hard" exiting when 3 or more SIGINTs are received
+- Exit with message if a plugin is specified, but not found
+
+Changes in version 0.4.7
+
+- Added janaroot plugin for automatic generation of ROOT trees from object
+- Create symbolic link to src directory if no "src" dir/file exists in the
+  installation directory
+- Fixed event rate reported so the events already read into buffer, but not
+  yet processed aren't included
+- Cleaned up base JANA Usage statement and implemented in the jana utility
+- Added --config option to read in configuration parameters from a file
+- Added EVENTS_TO_SKIP and EVENTS_TO_KEEP to JApplication so one can specify
+  a specific range of events to process from the command line
+- Modified autoconf and BMS to have configuration set in Makefile.config
+  rather than Makefile.common
+- Added ROOT m4 macro to configure.ac. ROOT configuration now set when
+  configure script is run rather than at build time by running root-config
+  then
+- Switched from using OSNAME to BMS_OSNAME as the platform specific variable
+  name to avoid conflicts on systems that use OSNAME for other purposes.
+- Use the osrelease.pl script to determine the unique platform name
+  based on OS, architecture, and gcc version.
+
+Changes in version 0.4.6
+
+- Modified Makefiles to no longer use JANA_HOME
+- Fixed JEventLoop::FindByID() templated method to use static_className()
+  instead of className() so it can be called without an object.
+
+Changes in version 0.4.5
+
+- Addition of headers and add/remove of std:: for gcc4.3 compatibility
+- Completed "uninstall" target for build system
+- Added default to autoconf for CCC=CC when building on SunOS
+- Changed install scheme to more closely match unix default. Default
+  now is to install directly in bin,lib,include with no platform specific
+  directory unless specified at configure time via the --prefix or
+  --exec_prefix arguments.
+- Added INSTALL file
+
+
+Changes in version 0.4.4
+
+- Fixed bug in JGeometryXML where the unsigned attr_depth was being initialized
+  using a signed value.
+- Fixed bugs in JObject::Get and GetT methods
+
+Changes in version 0.4.3
+
+- Added CHANGES file
+- Added autoconf to build system:
+	= Optionally include MySQL as well as XERCES using autoconf
+	= XERCES conditional compiles now based on HAVE_XERCES value
+- Fixed name of TestSpeed plugin (there was a typo in the name "TerstSpeed.so")
+- Added optional filter argument to GetXPaths method of JGeometry class
+- Added code that decided whether to make a JGeometryXML or a JGeometryMYSQL
+  object based on the JANA_GEOMETRY_URL value. This probably needs to be redone
+  with a generator mechanism in order to make it extensible.
+- Added JGeometryMYSQL class. Class is just a place holder and not yet implemented
+
+
