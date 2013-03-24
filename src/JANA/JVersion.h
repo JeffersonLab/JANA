@@ -28,7 +28,7 @@ class JVersion{
 		static unsigned int GetMajor(void){return major;}
 		static unsigned int GetMinor(void){return minor;}
 		static unsigned int GetBuild(void){return build;}
-		      static string GetDevStatus(void){return string("");} // return either "dev" or ""
+		      static string GetDevStatus(void){return string("p1");} // return either "dev" or ""
 		
 		static string GetVersion(void){
 			std::stringstream ss;
