@@ -1,0 +1,273 @@
+
+Changes in version 0.6.6p2
+- Fixed JGeometryXML to restore compatability with xerces 2.8
+
+Changes in version 0.6.6p1
+- Fixed problem where xerces-specific things were being compiled even when
+  the configuration specified HAVE_XERCES=0.
+
+Changes in version 0.6.6
+
+- JFactory::Get() and friends now catch std::exception rather than than
+  JException (they still catch JException since it derives from std::exception)
+- Added JResourceManager class and integrated support for it into
+  JApplication and JEventLoop
+- Added optional support for CURL library (used by JResourceManager)
+- Added "dev" to JVersion::GetVersion() for when under development
+- Fixed bugs in thread relaunching mechanism to prevent deadlocks
+  and infinite recursion. (Also made default to NOT auto-relaunch).
+- Made MAX_EVENTS_IN_BUFFER a configuration parameter to allow user
+  to set event buffer depth
+- Added callback and mutex unlock registration for when HUP sighandler
+  is called
+- Enhanced to allow janadot to display more than one JEventProcessor
+- Janadot can draw bounding box around groups. janadot_groups.py script added
+- mkplugin script updated to include more options and ROOT by default
+- Cache node names in JGeometryXML to make multi-threaded startup faster
+- Fixed bug with jcalibread where it printed error messages at startup
+- Fixed bug in --dumpcalibrations option
+- Added mutex locking to some JParameterManager methods to prevent errors
+  that occurred while printing the parameters and modifying them
+  simultaneously from another thread
+- Fixed bug in JParameterManager that could lead to some config. params. 
+  having different values for the first thread than for other threads
+- Added support for CCDB
+- Redfined some macros in jana_config.h to avoid name conflicts with
+  other packages
+
+
+Changes in version 0.6.5
+
+- Added AddEventSource method to allow sources to be specified programatically
+- Modified TestSpeed plugin to no longer require fake event source
+- Adjusted default governor parameters in TestSpeed to run faster
+- Improved handling of no or non-existent event sources
+- Fixed bug where order of JCalibration returned vector did not maintain
+  order in file. Zero padding guarantees ordering up to 9999 values.
+- Added ClearAssociatedObjects method to JObject
+- Added facility to manage 64bit status word with each event
+- Fixed bug where factories added from plugins did NOT get preference
+- Enhanced ctl-C signal handler to do a better job of forcing exits
+  when multiple SIGINTs are received
+- Added optional argument to JEventLoop::Get to allow any DEFTAG setting
+  to be ignored making it easier to get objects from the default factory
+- Improved exception handling, including throwing exception from
+  JCalibrationFile when non-existent constants are requested
+
+Changes in version 0.6.4
+
+- Updated to use Xerces 3 or Xerces 2 (detected at configure level)
+- Updated online documentation generation
+- Added THREAD_TIMEOUT_FIRST_EVENT parameter
+- Added ability to change the number of threads on the fly. This
+  can be done using janactl, or progamatically using the JApplication
+  pointer.
+- Fixed bug that caused deadlock when --factoryreport specified
+- Fixed bug where GetTag could cause seg. fault when used on object 
+  created by event source
+- Fixed bug that caused occasional deadlock when trying to merge
+  threads at end of event processing
+- Updated janaroot to accept stringtypes
+- Added mkfactory_plugin script
+- Added general list of rw locks indexed by name
+- Added special methods to JApplication for (un)locking rw lock for ROOT 
+- Added SConstruct script for building with scons
+- Fix bug that caused calibration tables with >10 columns to place columns
+  out of order
+- Added CreateParameter method to JParameterManager. Also fixed
+  bug where a race condition could occur in SetDefaultParameter
+- Throw exception with informative message if JApplication is initialized
+  twice.
+
+Changes in version 0.6.3
+
+- Added scripts directory along with scripts for creating some
+  common classes used in the framework.
+- Modified Makefile.lib to work with GNU make 3.82
+- Reorganized build system to be closer to classic unix style
+- Added jana-config script for easier setting of compiler options
+- Fixed bug where early call to JApplication::Quit() didn't stop
+  program execution
+- Added JANA:BATCH_MODE config. param. to disable certain messages
+- Added AUTOACTIVATE config. param. to allow auto-activated factories to
+  be specified via configuration file.
+- Delay deletion of JFactory objects until after processor's fini methods
+  have been called
+- Fixed bug where program would seg. fault if an invalid event source 
+  was provided
+- Fixed problem in TestSpeed plugin where number crunching routine
+  was being optimized away.
+- Added auto generation of setenv.csh and env.sh scripts
+- Cleaned up destruction of objects to allow valgrind to run much cleaner
+
+Changes in version 0.6.2
+
+- Added to force_links.cc to force JObject::GetTag to be linked
+- Cleaned up exceptions a bit to (nearly) always throw a JException
+  and catch a std::exception
+- Modified JCalibration system to support event-level calibration boundaries
+
+
+Changes in version 0.6.1
+
+- Added optional description string to configuration parameters
+- Fixed bug where EVENTS_TO_KEEP actually kept 1 less than specified
+- Start all 3 high resolution system timers and use PROF timer for 
+  factory call stack accounting
+- Added JRawData object to TestSpeed plugin to make it a more
+  complete example.
+- Fixed bugs in janadot plugin and improved display output
+- Added option to mark JEventProcessor objects for deletion when JApplication::fini
+  is called using optional second argument to JApplication::AddProcessor.
+- JParameterManager::GetParameter(key) throws exception when parameter
+  doesn't exist
+- Added AddAssociatedObjectAutoDelete method to JObject to allow ownership
+  of JObjects to be handed over to other JObjects.
+- Copy BMS directory to installdir to preserve platform-dependent settings
+
+Changes in version 0.6.0
+
+- Added PutCalib method to JCalibration
+- Added jcalibcopy utility
+- Added GetMultiple methods to JCalibration and JCalibrationXML
+- Nearly complete rewrite of JStreamLog and JStreamLogBuffer classes
+  many JANA messages now sent through them. Removed JLog class.
+- Added NTHREADS config. parameter which can be set to "Ncores"
+- Added AddLog,GetLog,GetSingle, and GetSingleT methods to JObject
+- Fixed bug with config. parameters containing white space being truncated
+- Link JANA library to all plugins (needed for gcc4.4 on F11)
+- Added WRITEOUT config. parameter to janaroot plugin to allow user 
+  specification of which factories to write out.
+- Added JANAROOT_MAX_OBJECTS config. parameter to janaroot
+- Added high resolution timer for recording event processing time in 
+  single threads
+
+Changes in version 0.5.3
+
+- Fixed bug that caused seg. faults due to double free in SetDefaultParameter
+- Added RootSpy utility and plugin
+
+
+Changes in version 0.5.2
+
+- Fixed bug where calibrations and configurations were always being
+  dumped at the end of the job.
+- Added default_value field to JParameter and improved bookkeeping of
+  isdefault and hasdefault values
+- Move printing of configuration parameters to after the first event
+- Fixed printing of rate average to not include first Nthreads events
+  which can be much slower due to initializations
+- Made Init, Run, Fini, ... methods vitural
+- Added crypto libraries to gSOAP Makefile
+
+Changes in version 0.5.1
+
+- Fixed bug introduced with 0.5.0 where JEventLoop was not
+  getting properly initialized for GUI's
+- Fixed bug where call stack recording did not record the
+  DEFTAG replacement tag
+- Add percentage of total processing time to janadot output
+
+
+Changes in version 0.5.0
+
+- Added -fPIC switch when building plugins
+- Added PLUGINS config. param for alternate way of specifying plugins
+- Improved handling of config. params (fixed multiple display bug)
+- Add $JANA_HOME/lib to plugin path automatically
+- Added --dumpconfig standard option to write all config. parameters to a file
+- Fixed bug where fini methods of factories were always called, even when init never was
+- Fixed bug where normal completion of Run method resulted in exiting with code of -1
+- Added optional FiniPlugin procedure call for plugins
+- Added GetSingle() method to JEventLoop
+- GetFactory method fixed to honor default tags from command line
+- Merged JException2 class into JException
+- Reworked mechanism to kill stalled threads
+- Fixed problem compiling on Fedora 10
+
+
+Changes in version 0.4.9
+
+- jcalbread displays either table or key-value format via command-line switch.
+- Added JCalibrationGenerator class and ability to install new types of
+  calibration and conditions database backends.
+- Added a Web Services implementation of JCalibration using gSOAP
+- Added additional Get method to JCalibration that accepts a pointer
+  reference so constants can be stored in JCalibration and recycled
+- Added recording of Get() requests to JCalibration
+- Added --dumpcalibrations option to JApplication to record constants used
+  in a way that can be used by subsequent, similar jobs
+- Added GetListOfNamepaths method to JCalibration
+
+Changes in version 0.4.8
+
+- Replaced stray instances of "uint" in JEventLoop.X with "unsigned int"
+- Added CERNLIB support to autoconf configuration
+- Added janahbook utility. This currently is unfinished.
+- Added warnings counter to janaroot plugin for data of unknown type
+- Added JANAROOT_VERBOSE config parameter to janaroot plugin
+- Improved mutex locking while accessing thread-related members of JApplication
+- Added THREAD_TIMEOUT config parameter to allow setting from command line
+- Launch a new thread if a dead one is terminated
+- Fixed "hard" exiting when 3 or more SIGINTs are received
+- Exit with message if a plugin is specified, but not found
+
+Changes in version 0.4.7
+
+- Added janaroot plugin for automatic generation of ROOT trees from object
+- Create symbolic link to src directory if no "src" dir/file exists in the
+  installation directory
+- Fixed event rate reported so the events already read into buffer, but not
+  yet processed aren't included
+- Cleaned up base JANA Usage statement and implemented in the jana utility
+- Added --config option to read in configuration parameters from a file
+- Added EVENTS_TO_SKIP and EVENTS_TO_KEEP to JApplication so one can specify
+  a specific range of events to process from the command line
+- Modified autoconf and BMS to have configuration set in Makefile.config
+  rather than Makefile.common
+- Added ROOT m4 macro to configure.ac. ROOT configuration now set when
+  configure script is run rather than at build time by running root-config
+  then
+- Switched from using OSNAME to BMS_OSNAME as the platform specific variable
+  name to avoid conflicts on systems that use OSNAME for other purposes.
+- Use the osrelease.pl script to determine the unique platform name
+  based on OS, architecture, and gcc version.
+
+Changes in version 0.4.6
+
+- Modified Makefiles to no longer use JANA_HOME
+- Fixed JEventLoop::FindByID() templated method to use static_className()
+  instead of className() so it can be called without an object.
+
+Changes in version 0.4.5
+
+- Addition of headers and add/remove of std:: for gcc4.3 compatibility
+- Completed "uninstall" target for build system
+- Added default to autoconf for CCC=CC when building on SunOS
+- Changed install scheme to more closely match unix default. Default
+  now is to install directly in bin,lib,include with no platform specific
+  directory unless specified at configure time via the --prefix or
+  --exec_prefix arguments.
+- Added INSTALL file
+
+
+Changes in version 0.4.4
+
+- Fixed bug in JGeometryXML where the unsigned attr_depth was being initialized
+  using a signed value.
+- Fixed bugs in JObject::Get and GetT methods
+
+Changes in version 0.4.3
+
+- Added CHANGES file
+- Added autoconf to build system:
+	= Optionally include MySQL as well as XERCES using autoconf
+	= XERCES conditional compiles now based on HAVE_XERCES value
+- Fixed name of TestSpeed plugin (there was a typo in the name "TerstSpeed.so")
+- Added optional filter argument to GetXPaths method of JGeometry class
+- Added code that decided whether to make a JGeometryXML or a JGeometryMYSQL
+  object based on the JANA_GEOMETRY_URL value. This probably needs to be redone
+  with a generator mechanism in order to make it extensible.
+- Added JGeometryMYSQL class. Class is just a place holder and not yet implemented
+
+
