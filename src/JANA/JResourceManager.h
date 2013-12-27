@@ -107,6 +107,7 @@ class JResourceManager{
 
                     string GetResource(string namepath);
                     string GetLocalPathToResource(string namepath);
+        map<string,string> GetLocalResources(void){return resources;}
 
              JCalibration* GetJCalibration(void){return jcalib;}
 
@@ -114,6 +115,9 @@ class JResourceManager{
 
 		// Used to get URL of remote resource
 		JCalibration *jcalib;
+		
+		// Keep list of namepaths in JCalibration
+		vector<string> calib_namepaths;
 
 		// Used to convert files to values in STL containers
 		JCalibrationFile *jcalibfile;
