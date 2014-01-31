@@ -112,7 +112,7 @@ sbms.ApplyPlatformSpecificSettings(env, arch)
 sbms.ApplyPlatformSpecificSettings(env, osname)
 
 # Make plugin from source in this directory
-sbms.AddJANA(env)
+sbms.AddJANAInstalled(env)
 sbms.AddROOT(env)  # should do nothing unless ROOTSYS is defined
 sbms.plugin(env)
 
