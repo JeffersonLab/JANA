@@ -29,7 +29,7 @@ import sys
 import subprocess
 import glob
 
-# Get HALLD_HOME environment variable, verifying it is set
+# Get JANA_HOME environment variable, verifying it is set
 jana_home = os.getenv('JANA_HOME')
 if(jana_home == None):
 	print 'JANA_HOME environment variable not set!'
@@ -54,7 +54,7 @@ osname = os.getenv('BMS_OSNAME', 'build')
 arch = subprocess.Popen(["uname"], stdout=subprocess.PIPE).communicate()[0].strip()
 
 # Setup initial environment
-installdir = "%s/%s" %(jana_my, osname)
+installdir = "%s" %(jana_my)
 include = "%s/include" % (installdir)
 bin = "%s/bin" % (installdir)
 lib = "%s/lib" % (installdir)
