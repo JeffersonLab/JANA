@@ -294,9 +294,9 @@ sub CopySConstruct()
 	#$PACKAGES = $JANA_IMPLEMENTATION;
 	#if(!$NO_ROOT){ $PACKAGES .= ":ROOT"; }
 
-	$from = $ENV{"JANA_HOME"} . "../SBMS/SConstruct.plug_in";
+	$from = $ENV{"JANA_HOME"} . "/../SBMS/SConstruct.plug_in";
 	$to = "./${pluginname}/SConstruct";
-	copy($from, $to) or die ("copy failed $! -- $?");
+	copy($from, $to) or die ("copy failed $!\n from \"$from\"\n to \"$to\"");
 }
 
 ###############
