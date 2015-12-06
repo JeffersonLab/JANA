@@ -579,7 +579,8 @@ def AddROOT(env):
 	# We also create a builder for ROOT dictionaries and add targets to
 	# build dictionaries for any headers with "ClassDef" in them.
 
-	if os.getenv('ROOTSYS') != None:
+	rootsys = os.getenv('ROOTSYS')
+	if rootsys != None:
 
 		ROOT_CFLAGS = subprocess.Popen(["%s/bin/root-config" % rootsys, "--cflags"], stdout=subprocess.PIPE).communicate()[0]
 		ROOT_LINKFLAGS = subprocess.Popen(["%s/bin/root-config" % rootsys, "--glibs"], stdout=subprocess.PIPE).communicate()[0]
