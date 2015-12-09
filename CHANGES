@@ -1,4 +1,8 @@
 
+Changes in version 0.7.4p2
+- Fixed bug in JFactory::Get where event number and run number types
+  of local variables were not consistent with rest of JANA.
+
 Changes in version 0.7.4p1
 - Fixed bug where default JEventProcessor::evnt was calling int version of
   itself leading to hangs.
