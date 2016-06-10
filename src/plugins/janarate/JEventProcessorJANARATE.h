@@ -39,6 +39,7 @@ class JEventProcessorJANARATE:public JEventProcessor
 			double thread_rate;         ///< Last instantaneous rate of this thread (updated every 2 seconds)
 			double thread_delta_sec;    ///< Time to process the previous event (not this one!)
 			double cpu;
+			double max_MB;
 			double mem_MB;
 			unsigned int threadid;      ///< pthreadid of this thread
 		}rate_t;

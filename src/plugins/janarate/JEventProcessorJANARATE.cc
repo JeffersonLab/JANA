@@ -16,6 +16,8 @@ using namespace std;
 using namespace jana;
 
 
+double PAGE_SIZE_MB = 0.0;
+
 // Routine used to allow us to register our JEventSourceGenerator
 extern "C"{
 void InitPlugin(JApplication *app){
@@ -41,9 +43,12 @@ jerror_t JEventProcessorJANARATE::init(void)
 	
 	app->RootReadLock();
 	rate_tree = new TTree("rate_tree","Event Processing Rates");
-	rate_tree->Branch("rates", &rate, "tot_rate/D:tot_integrated_rate:thread_rate:thread_delta_sec:cpu:mem_MB:threadid/i");
+	rate_tree->Branch("rates", &rate, "tot_rate/D:tot_integrated_rate:thread_rate:thread_delta_sec:cpu:max_MB:mem_MB:threadid/i");
 	rate_tree->SetMarkerStyle(20);
 	app->RootUnLock();
+	
+	PAGE_SIZE_MB = ((double)getpagesize())/(1024.0*1024.0);
+	cout << "PAGE_SIZE_MB = " << PAGE_SIZE_MB << endl;
 	
 	return NOERROR;
 }
@@ -96,7 +101,8 @@ jerror_t JEventProcessorJANARATE::evnt(JEventLoop *loop, uint64_t eventnumber)
 	getrusage(RUSAGE_SELF, &usage);
 //	double t_user = (double)usage.ru_utime.tv_sec + 1.0E-6*(double)usage.ru_utime.tv_usec;
 //	double t_sys  = (double)usage.ru_stime.tv_sec + 1.0E-6*(double)usage.ru_stime.tv_usec;
-	double mem_usage = (double)(usage.ru_maxrss)/1024.0; // convert to MB
+	double max_usage = (double)(usage.ru_maxrss)/1024.0; // convert to MB
+	double mem_usage = 0.0;
 	
 #ifdef __linux__
 	// Get CPU utilization
@@ -113,6 +119,19 @@ jerror_t JEventProcessorJANARATE::evnt(JEventLoop *loop, uint64_t eventnumber)
 		last_sum3 = sum3;
 		last_sum4 = sum4;
 	}
+	
+	// Get Memory usage
+	char fname[256];
+	sprintf(fname, "/proc/%d/statm", getpid());
+	fp = fopen(fname,"r");
+	if(fp){
+		uint64_t a[7] = {0,0,0,0,0,0,0};
+		fscanf(fp, "%ld %ld %ld %ld %ld %ld %ld", &a[0], &a[1], &a[2], &a[3], &a[4], &a[5], &a[6]);
+		fclose(fp);
+
+		mem_usage = ((double)a[1])*PAGE_SIZE_MB;
+	}
+	
 #endif // __linux__
 
 #ifdef __APPLE__
@@ -129,6 +148,7 @@ jerror_t JEventProcessorJANARATE::evnt(JEventLoop *loop, uint64_t eventnumber)
 	myrate.threadid = (unsigned int)(0xFFFFFFFF & (unsigned long)loop->GetPThreadID());
 	myrate.cpu = loadavg;
 	myrate.mem_MB = mem_usage;
+	myrate.max_MB = max_usage;
 	
 	app->RootWriteLock();
 	this->rate = myrate;
