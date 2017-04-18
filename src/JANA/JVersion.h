@@ -22,13 +22,13 @@ class JVersion{
 		enum{
 			major = 0,
 			minor = 7,
-			build = 8
+			build = 7
 		};
 		
 		static unsigned int GetMajor(void){return major;}
 		static unsigned int GetMinor(void){return minor;}
 		static unsigned int GetBuild(void){return build;}
-		      static string GetDevStatus(void){return string("p1");} // return either "dev" or ""
+		      static string GetDevStatus(void){return string("dev");} // return either "dev" or ""
 		
 		static string GetVersion(void){
 			std::stringstream ss;
