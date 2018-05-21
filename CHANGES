@@ -1,3 +1,7 @@
+Changes in version 0.8.0
+- Copied repository to github. This is first version tagged there
+- Fixed bugs with using japp global in containers
+- Remove CCDB dependency (mistakenly added earlier)
 
 Changes in version 0.7.9p1
 - Make most private members of JGeometryXML protected
