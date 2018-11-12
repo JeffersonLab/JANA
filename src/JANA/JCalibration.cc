@@ -327,7 +327,11 @@ void JCalibration::DumpCalibrationsToFiles(string basedir)
 	int err = chdir(basedir.c_str());         // cd into the basedir directory
 	if(!err)  err = (getcwd(fullpath, 1024)==NULL); // get full path of basedir directory
 	if(dirp){
-		fchdir(dirfd(dirp));                        // cd back into the working directory we started in
+		// cd back into the working directory we started in
+		if(fchdir(dirfd(dirp))){
+			// We do the check here also to avoid warning: ignoring return value
+			jout<<"Was not able to cd back into the working directory we started in" << endl;
+		};
 		closedir(dirp);
 	}
 	if(err != 0){
