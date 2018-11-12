@@ -52,7 +52,7 @@ def which(program):
 # mk_jana_config_h
 ##################################
 def mk_jana_config_h(env):
-	ofdirname = '#src/.%s/JANA' % env['OSNAME']
+	ofdirname = '%s/JANA' % env['variant_dir']
 	ofdir = '%s' % env.Dir(ofdirname)
 	ofname = '%s/jana_config.h' % ofdir
 	print 'sbms : Making jana_config.h in %s' % ofdir
@@ -140,12 +140,14 @@ def mk_jana_config_h(env):
 # mk_jana_config_script
 ##################################
 def mk_jana_config_script(env):
-	ofdirname = '#%s/bin' % env['OSNAME']
+
+	JANA_INSTALL_DIR = '%s' % env.Dir(env['INSTALLDIR']).abspath
+
+	ofdirname = '%s/bin' % JANA_INSTALL_DIR
 	ofdir = '%s' % env.Dir(ofdirname)
 	ofname = '%s/jana-config' % ofdir
-	print 'sbms : Making jana-config in %s' % ofdir
 
-	JANA_INSTALL_DIR = '%s' % env.Dir("#/%s" % env['OSNAME']).abspath
+	print 'sbms : Making jana-config in %s' % ofdir
 	
 	# ROOT
 	HAVE_ROOT = 0
