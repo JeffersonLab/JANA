@@ -2392,7 +2392,7 @@ jerror_t JApplication::AttachPlugins(void)
 		for(unsigned int i=0; i< pluginPaths.size(); i++){
 			string fullpath = pluginPaths[i] + "/" + plugin;
 			if(printPaths){
-				jout<<"Looking for \""<<fullpath<<"\" ...."; 
+				jout<<"Looking for \""<<fullpath<<"\" ....";
 				cout.flush();
 			}
 			ifstream f(fullpath.c_str());
@@ -2409,7 +2409,7 @@ jerror_t JApplication::AttachPlugins(void)
 			if(fullpath[0] != '/')continue;
 			fullpath = pluginPaths[i] + "/" + plugins[j] + "/" + plugin;
 			if(printPaths){
-				jout<<"Looking for \""<<fullpath<<"\" ...."; 
+				jout<<"Looking for \""<<fullpath<<"\" ....";
 				cout.flush();
 			}
 			f.open(fullpath.c_str());
