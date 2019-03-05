@@ -512,11 +512,23 @@ def Add_xstream(env):
 
 
 ##################################
+# MYSQL
+##################################
+def AddMySQL(env):
+    # Only run mysql_config the first time through
+    MYSQL_CFLAGS = subprocess.Popen(["mysql_config","--cflags"], stdout=subprocess.PIPE).communicate()[0]
+    MYSQL_LINKFLAGS = subprocess.Popen(["mysql_config","--libs"], stdout=subprocess.PIPE).communicate()[0]
+    AddCompileFlags(env, MYSQL_CFLAGS)
+    AddLinkFlags(env, MYSQL_LINKFLAGS)
+
+
+##################################
 # CCDB
 ##################################
 def AddCCDB(env):
 	ccdb_home = os.getenv('CCDB_HOME', 'none')
 	if(ccdb_home != 'none'):
+		AddMySQL(env)
 		CCDB_CPPPATH = "%s/include" % (ccdb_home)
 		CCDB_LIBPATH = "%s/lib" % (ccdb_home)
 		CCDB_LIBS = "ccdb"
