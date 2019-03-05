@@ -158,8 +158,6 @@ string JException::getStackTrace(bool demangle_names, size_t max_frames) {
 	// cap max_frames a user can ask for at 1024
 	if(max_frames > 1024) max_frames = 1024;
 
-  size_t dlen = 1023;
-  char dname[1024];
   void *trace[1024];
   int status=0;
   
@@ -221,8 +219,14 @@ string JException::getStackTrace(bool demangle_names, size_t max_frames) {
 		}
 		
 		// Demangle name
-		abi::__cxa_demangle(mangled_name.c_str(),dname,&dlen,&status);
-		string demangled_name(dname);
+		// n.b. pre-allocating dname seems broken on OS X 10.14 when
+		// the name does not appear properly mangled. Amazingly, this
+		// actually occurs with some names returned by the backtrace.
+		// 3/5/2019 DL
+		size_t dlen=0;
+		char *dname = abi::__cxa_demangle(mangled_name.c_str(),NULL,&dlen,&status);
+		string demangled_name(dname ? dname:mangled_name.c_str());
+		free(dname);
 		
 		// Add demangled name or full message to output
 		if(demangled_name.length()>0){

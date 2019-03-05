@@ -1,3 +1,7 @@
+Changes in version 0.8.1
+- Fixed bug in OS X 10.14 that caused error "pointer being realloc'd was not allocated"
+- Added mysqlclient library to linking command explictly when CCDB is added
+
 Changes in version 0.8.0
 - Copied repository to github. This is first version tagged there
 - Fixed bugs with using japp global in containers
