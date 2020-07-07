@@ -1,3 +1,6 @@
+Changes in version 0.8.2
+- Added SetVerbose method to JGeometry class to allow supressing messages in JGeometryXML::Get
+
 Changes in version 0.8.1
 - Fixed bug in OS X 10.14 that caused error "pointer being realloc'd was not allocated"
 - Added mysqlclient library to linking command explictly when CCDB is added

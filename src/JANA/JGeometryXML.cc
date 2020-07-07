@@ -344,7 +344,7 @@ bool JGeometryXML::Get(string xpath, string &sval)
 
 #endif
 
-	_DBG_<<"Node or attribute not found for xpath \""<<xpath<<"\"."<<endl;
+	if( verbose > 0) _DBG_<<"Node or attribute not found for xpath \""<<xpath<<"\"."<<endl;
 
 	// Looks like we failed to find the requested item. Let the caller know.
 	return false;
@@ -388,7 +388,7 @@ bool JGeometryXML::Get(string xpath, map<string, string> &svals)
 
 #endif
 
-	_DBG_<<"Node or attribute not found for xpath \""<<xpath<<"\"."<<endl;
+	if( verbose > 0) _DBG_<<"Node or attribute not found for xpath \""<<xpath<<"\"."<<endl;
 
 	// Looks like we failed to find the requested item. Let the caller know.
 	return false;
