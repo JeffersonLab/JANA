@@ -70,7 +70,7 @@ def mk_jana_config_h(env):
 	if(XERCESCROOT==None):
 		options = ['-lxerces-c']
 	else:
-		options = ['-I%s/include -L%s/lib -lxerces-c' % (XERCESCROOT,XERCESCROOT)]
+		options = ['-I%s/include -L%s/lib -lxerces-c -std=c++11' % (XERCESCROOT,XERCESCROOT)]
 	
 	if(sbms.TestCompile(env, 'xerces-c', includes, content, options) != None):
 		# We know xerces is installed and now need to check whether it is xerces2
